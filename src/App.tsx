@@ -7,6 +7,7 @@ import TurnierDetail from "./components/TurnierDetail";
 import Turniere from "./components/Turniere";
 import TournamentOverview from "./components/TournamentOverview";
 import TurnierKalender from "./components/Turnierkalender";
+import KalenderTurnierSeite from "./components/KalenderTurnierSeite";
 
 function App() {
     return (
@@ -19,6 +20,9 @@ function App() {
                     <Route path="/tournament/:id" element={<TurnierDetail />} />
                     <Route path="/overview" element={<TournamentOverview />} />
                     <Route path="/calendar" element={<TurnierKalender />} />
+                    <Route path="/calendartournament" element={<KalenderTurnierSeite />} />
+
+
 
                 </Routes>
             </BrowserRouter>

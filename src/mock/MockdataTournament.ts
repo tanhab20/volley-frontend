@@ -40,5 +40,21 @@ export const mockTournaments: ITournament[] = [
         location: 'Frankfurt, Stadtpark',
         duration: '1 day',
         description: 'A charity run event organized in the city park of Frankfurt.',
-    }
+    },
+    {
+        id: 6,
+        name: 'Winterlauf 2024',
+        date: new Date('2024-12-03'),
+        location: 'Hamburg, Alsterpark',
+        duration: '1 day',
+        description: 'Ein jährlicher Winterlauf, der Sportler aus der ganzen Region anzieht.',
+    },
+    {
+        id: 7,
+        name: 'Indoor-Fußballturnier',
+        date: new Date('2024-12-03'),
+        location: 'München, Sporthalle Süd',
+        duration: '1 day',
+        description: 'Ein spannendes Indoor-Fußballturnier mit Teams aus verschiedenen Stadtteilen.',
+    },
 ];
