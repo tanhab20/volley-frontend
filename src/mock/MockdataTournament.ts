@@ -1,39 +1,44 @@
 import {ITournament} from "../model/ITournament";
 
-const mockTournaments: ITournament[] = [
+export const mockTournaments: ITournament[] = [
     {
-        name: "Frühlingsturnier 2024",
-        date: new Date("2024-05-15"),
-        location: "Sporthalle A",
-        duration: "2 Stunden",
-        description: "Ein spannendes Turnier im Frühling mit vielen Teams."
+        id: 1,
+        name: 'Sommerfußball-Cup 2024',
+        date: new Date('2024-07-15'),
+        location: 'Berlin, Olympiastadion',
+        duration: '3 days',
+        description: 'A summer football tournament held in Berlin for local and international teams.',
     },
     {
-        name: "Sommer-Cup 2024",
-        date: new Date("2024-07-20"),
-        location: "Stadion B",
-        duration: "3 Stunden",
-        description: "Der jährliche Sommer-Cup mit Wettbewerben in verschiedenen Sportarten."
+        id: 2,
+        name: 'Internationales Schachturnier',
+        date: new Date('2024-03-22'),
+        location: 'Hamburg, Messehalle',
+        duration: '2 days',
+        description: 'An international chess tournament bringing together grandmasters from around the world.',
     },
     {
-        name: "Herbstmeisterschaft 2024",
-        date: new Date("2024-09-30"),
-        location: "KTL Kaindorf",
-        duration: "4 Stunden",
-        description: "Die Meisterschaft im Herbst, bei der die besten Teams gegeneinander antreten."
+        id: 3,
+        name: 'Tennis Masters 2024',
+        date: new Date('2024-08-10'),
+        location: 'München, Tennis Club Rot-Weiß',
+        duration: '5 days',
+        description: 'A prestigious tennis event hosted by Tennis Club Rot-Weiß in Munich.',
     },
     {
-        name: "Winter-Wettkampf 2024",
-        date: new Date("2024-12-10"),
-        location: "Eisbahn C",
-        duration: "5 Stunden",
-        description: "Ein Wettkampf in verschiedenen Winterdisziplinen."
+        id: 4,
+        name: 'Schulmeisterschaften im Basketball',
+        date: new Date('2024-05-30'),
+        location: 'Köln, Sporthalle am Rhein',
+        duration: '1 day',
+        description: 'School basketball championships held at the Rhein sports hall in Cologne.',
     },
     {
-        name: "Neujahrsturnier 2025",
-        date: new Date("2025-01-05"),
-        location: "Halle D",
-        duration: "3 Stunden",
-        description: "Ein Turnier, um das neue Jahr sportlich zu beginnen."
+        id: 5,
+        name: 'Lauf für den guten Zweck',
+        date: new Date('2024-09-12'),
+        location: 'Frankfurt, Stadtpark',
+        duration: '1 day',
+        description: 'A charity run event organized in the city park of Frankfurt.',
     }
 ];

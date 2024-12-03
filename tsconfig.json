@@ -22,5 +22,10 @@
   },
   "include": [
     "src"
+  ],
+  "files": [
+    "cypress/**/*.ts",       // Include all TypeScript files in the Cypress folder
+    "cypress.config.js",     // Include the Cypress configuration file
+    "src/**/*.ts"
   ]
 }

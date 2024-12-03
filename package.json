@@ -3,17 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mui/x-date-pickers": "^7.22.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.119",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "date-fns": "^4.1.0",
     "react": "^18.3.1",
+    "react-calendar": "^5.1.0",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
+    "react-router-dom": "^6.28.0",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -39,5 +41,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/cypress": "^1.1.6",
+    "@types/node": "^22.9.0",
+    "cypress": "^13.15.2",
+    "html-webpack-plugin": "^5.3.2",
+    "typescript": "^4.9.5"
   }
 }

@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    command: sh -c "npm install && npm start"
+
+  cypress:
+    image: cypress/included:13.15.2
+    depends_on:
+      - web
+    environment:
+      - CYPRESS_BASE_URL=http://web:3000
+    volumes:
+      - ./cypress:/app/cypress
+      - ./cypress.config.js:/app/cypress.config.js
+      - ./scripts/wait-for-it.sh:/app/wait-for-it.sh
+      - ./tsconfig.json:/app/tsconfig.json
+    working_dir: /app
+    entrypoint: [ "sh", "-c", "./wait-for-it.sh web:3000 -t 60 -- npx cypress run" ]

@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import Form from "./components/Form";
+import TurnierDetail from "./components/TurnierDetail";
+import Turniere from "./components/Turniere";
+import TournamentOverview from "./components/TournamentOverview";
+import TurnierKalender from "./components/Turnierkalender";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="container">
+            <BrowserRouter>
+                <Home />
+                <Routes>
+                    <Route path="/form" element={<Form />} />
+                    <Route path="/tournaments" element={<Turniere />} />
+                    <Route path="/tournament/:id" element={<TurnierDetail />} />
+                    <Route path="/overview" element={<TournamentOverview />} />
+                    <Route path="/calendar" element={<TurnierKalender />} />
+
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;

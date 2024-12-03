@@ -1,38 +1,109 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #003366;
+  margin-bottom: 20px;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: #0056b3;
+  font-size: 18px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #e6f0ff;
+  border-radius: 5px;
+}
+
+a:hover {
+  background-color: #cce0ff;
+}
+
+.tournament-form-container, .tournament-overview, .tournament-list {
+
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding-right: 25px;
+
+}
+
+.tournament-form-container h2 {
+  font-size: 1.5rem;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #334155;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+}
+
+button[type="submit"] {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  background-color: #1e3a8a;
   color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+button[type="submit"]:hover {
+  background-color: #1d4ed8;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tournament-overview p, .tournament-list p {
+  font-size: 16px;
+  color: #666;
+  margin: 10px 0;
+}
+
+.tournament-list-item {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
 }

@@ -1,7 +1,7 @@
-import React, {FormEvent, useState} from 'react';
-import '../common/styles/Form.css';
+import React, { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {ITournament} from "../common/model/ITournament";
+import { ITournament } from "../model/ITournament";
+import { mockTournaments } from "../mock/MockdataTournament";
 
 const Form: React.FC = () => {
     const navigate = useNavigate();
@@ -13,15 +13,14 @@ const Form: React.FC = () => {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         const newTournament: ITournament = {
-            name: name,
+            id: mockTournaments.length + 1,
+            name,
             date: new Date(date),
             location: venue,
-            duration: duration,
-            description: description
+            duration,
+            description
         };
-
         console.log('Turnier erstellt:', newTournament);
         navigate('/overview', { state: newTournament });
     };
@@ -31,7 +30,7 @@ const Form: React.FC = () => {
             <h2>Turnier erstellen</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="name">Namen:</label>
+                    <label htmlFor="name">Name:</label>
                     <input
                         type="text"
                         id="name"
@@ -77,7 +76,7 @@ const Form: React.FC = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
-                    ></textarea>
+                    />
                 </div>
                 <button type="submit">Turnier erstellen</button>
             </form>
