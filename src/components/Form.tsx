@@ -2,6 +2,7 @@ import React, { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ITournament } from "../model/ITournament";
 import { mockTournaments } from "../mock/MockdataTournament";
+import "../From.css"
 
 const Form: React.FC = () => {
     const navigate = useNavigate();

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const TurnierKalender: React.FC = () => {
     const navigate = useNavigate();
 
-    const tournamentMap = mockTournaments.reduce((acc: { [key: string]: typeof mockTournaments }, tournament) => {
+    const tournamentMap = mockTournaments.reduce((acc: { [key: string]: any[] }, tournament) => {
         const date = new Date(tournament.date).toLocaleDateString();
         if (!acc[date]) acc[date] = [];
         acc[date].push(tournament);
@@ -38,8 +38,6 @@ const TurnierKalender: React.FC = () => {
         navigate(`/calendartournament?date=${encodeURIComponent(formattedDate)}`, { state: { date, tournaments } });
     };
 
-
-
     return (
         <div>
             <Calendar
@@ -50,5 +48,6 @@ const TurnierKalender: React.FC = () => {
         </div>
     );
 };
+
 
 export default TurnierKalender;

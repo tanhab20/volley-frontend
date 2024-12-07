@@ -1,4 +1,4 @@
-/* Turniere.css */
+
 
 .turnier-card {
     background-color: #e0f7fa;
@@ -8,17 +8,17 @@
     margin: 10px;
     width: 250px;
   }
-  
+
   .turnier-card h3 {
     font-size: 20px;
     font-weight: bold;
   }
-  
+
   .turnier-card p {
     font-size: 16px;
     margin: 5px 0;
   }
-  
+
   .turnier-card button {
     background-color: #00796b;
     color: white;
@@ -27,8 +27,7 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  
+
   .turnier-card button:hover {
     background-color: #004d40;
   }
-  
