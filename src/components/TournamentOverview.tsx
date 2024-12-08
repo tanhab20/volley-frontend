@@ -17,6 +17,7 @@ const TournamentOverview: React.FC = () => {
             <p>Dauer: {tournament.duration}</p>
             <p>Beschreibung: {tournament.description}</p>
             <button type={"submit"} onClick={() => navigate("/")}>Home</button>
+
         </div>
     );
 };
