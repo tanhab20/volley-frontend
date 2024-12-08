@@ -9,7 +9,7 @@ describe('Turniere Seite - Performance Test', () => {
         const endTime = performance.now();
         const loadTime = endTime - startTime;
 
-        // Überprüfen, ob die Seite in weniger als 2 Sekunden lädt
+
         expect(loadTime).to.be.lessThan(2000);
     });
 

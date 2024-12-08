@@ -19,8 +19,8 @@ const Turniere: React.FC = () => {
             {tournaments.map((turnier) => (
                 <div key={turnier.id} className="tournament-list-item">
                     <h2>{turnier.name}</h2>
-                    <GrEdit onClick={() => navigate(`/edit-tournament/${turnier.id}`)} style={{padding:5}}/>
-                    <MdDelete  onClick={() => handleDelete(turnier.id)} style={{padding:5}}/>
+                    <button className={"edi"} name={"edi"} id={"edi"}  onClick={() => navigate(`/edit-tournament/${turnier.id}`)}><GrEdit/> Bearbeiten</button>
+                    <button className={"del"} name={"del"} id={"del"} onClick={() => handleDelete(turnier.id)} ><MdDelete/> Delete</button>
                     <p><strong>Datum:</strong> {new Date(turnier.date).toLocaleDateString()}</p>
                     <p><strong>Veranstaltungsort:</strong> {turnier.location}</p>
                     <p><strong>Dauer:</strong> {turnier.duration}</p>
