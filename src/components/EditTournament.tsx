@@ -1,39 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { mockTournaments } from "../mock/MockdataTournament";
-import "../EditTournament.css"
+import "../styles/EditTournament.css";
+import { getTournamentById, updateTournament } from "../axios/tournamentService"; // Importiere PATCH-Service
 
 const EditTournament: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>(); // ID aus der URL extrahieren
     const navigate = useNavigate();
 
-    const tournament = mockTournaments.find(t => t.id === Number(id));
-
     const [formData, setFormData] = useState({
-        name: tournament?.name || "",
-        date: tournament ? new Date(tournament.date).toISOString().split("T")[0] : "",
-        location: tournament?.location || "",
-        duration: tournament?.duration || ""
+        name: "",
+        date: "",
+        location: "",
+        duration: ""
     });
 
-    if (!tournament) {
-        return <p>Turnier nicht gefunden!</p>;
-    }
+    const [isLoading, setIsLoading] = useState(true); // Ladezustand
 
+    // Fetch tournament data by ID
+    useEffect(() => {
+        const fetchTournament = async () => {
+            try {
+                if (id) {
+                    const tournament = await getTournamentById(id); // Turnierdaten abrufen
+                    setFormData({
+                        name: tournament.name,
+                        date: new Date(tournament.date).toISOString().split("T")[0],
+                        location: tournament.location,
+                        duration: tournament.duration
+                    });
+                }
+            } catch (error) {
+                console.error("Fehler beim Abrufen des Turniers:", error);
+            } finally {
+                setIsLoading(false); // Ladeanzeige beenden
+            }
+        };
+
+        fetchTournament();
+    }, [id]);
+
+    // Handle input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = () => {
-        if (tournament) {
-            tournament.name = formData.name;
-            tournament.date = new Date(formData.date);
-            tournament.location = formData.location;
-            tournament.duration = formData.duration;
+    // Submit changes to the database
+    const handleSubmit = async () => {
+        try {
+            if (id) {
+                await updateTournament(id, {
+                    name: formData.name,
+                    date: new Date(formData.date),
+                    location: formData.location,
+                    duration: formData.duration
+                });
+                alert("Änderungen gespeichert!");
+                navigate("/"); // Zurück zur Startseite
+            }
+        } catch (error) {
+            console.error("Fehler beim Aktualisieren des Turniers:", error);
         }
-        navigate("/");
     };
+
+    if (isLoading) {
+        return <p>Loading tournament data...</p>; // Ladeanzeige
+    }
 
     return (
         <div className="tournament-form-container">

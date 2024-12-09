@@ -2,7 +2,7 @@ import {ITournament} from "../model/ITournament";
 
 export const mockTournaments: ITournament[] = [
     {
-        id: 1,
+        _id: "1",
         name: 'Sommerfußball-Cup 2024',
         date: new Date('2024-07-15'),
         location: 'Berlin, Olympiastadion',
@@ -10,7 +10,7 @@ export const mockTournaments: ITournament[] = [
         description: 'A summer football tournament held in Berlin for local and international teams.',
     },
     {
-        id: 2,
+        _id: "2",
         name: 'Internationales Schachturnier',
         date: new Date('2024-03-22'),
         location: 'Hamburg, Messehalle',
@@ -18,7 +18,7 @@ export const mockTournaments: ITournament[] = [
         description: 'An international chess tournament bringing together grandmasters from around the world.',
     },
     {
-        id: 3,
+        _id: "3",
         name: 'Tennis Masters 2024',
         date: new Date('2024-08-10'),
         location: 'München, Tennis Club Rot-Weiß',
@@ -26,7 +26,7 @@ export const mockTournaments: ITournament[] = [
         description: 'A prestigious tennis event hosted by Tennis Club Rot-Weiß in Munich.',
     },
     {
-        id: 4,
+        _id: "4",
         name: 'Schulmeisterschaften im Basketball',
         date: new Date('2024-05-30'),
         location: 'Köln, Sporthalle am Rhein',
@@ -34,7 +34,7 @@ export const mockTournaments: ITournament[] = [
         description: 'School basketball championships held at the Rhein sports hall in Cologne.',
     },
     {
-        id: 5,
+        _id:" 5",
         name: 'Lauf für den guten Zweck',
         date: new Date('2024-09-12'),
         location: 'Frankfurt, Stadtpark',
@@ -42,7 +42,7 @@ export const mockTournaments: ITournament[] = [
         description: 'A charity run event organized in the city park of Frankfurt.',
     },
     {
-        id: 6,
+        _id: "6",
         name: 'Winterlauf 2024',
         date: new Date('2024-12-03'),
         location: 'Hamburg, Alsterpark',
@@ -50,7 +50,7 @@ export const mockTournaments: ITournament[] = [
         description: 'Ein jährlicher Winterlauf, der Sportler aus der ganzen Region anzieht.',
     },
     {
-        id: 7,
+        _id: "7",
         name: 'Indoor-Fußballturnier',
         date: new Date('2024-12-03'),
         location: 'München, Sporthalle Süd',

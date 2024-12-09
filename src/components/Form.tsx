@@ -1,29 +1,37 @@
 import React, { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ITournament } from "../model/ITournament";
-import { mockTournaments } from "../mock/MockdataTournament";
-import "../From.css"
+import "../styles/From.css";
+import {createTournament} from "../axios/tournamentService";
 
 const Form: React.FC = () => {
     const navigate = useNavigate();
+
+    // State für die Eingabefelder
     const [name, setName] = useState('');
     const [date, setDate] = useState('');
     const [venue, setVenue] = useState('');
     const [duration, setDuration] = useState('');
     const [description, setDescription] = useState('');
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    // Funktion für das Absenden des Formulars
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const newTournament: ITournament = {
-            id: mockTournaments.length + 1,
+
+        const newTournament = {
             name,
-            date: new Date(date),
+            date: new Date(date), // Konvertiere das Datum in ein Date-Objekt
             location: venue,
             duration,
-            description
+            description,
         };
-        console.log('Turnier erstellt:', newTournament);
-        navigate('/overview', { state: newTournament });
+
+        try {
+            const createdTournament = await createTournament(newTournament); // Turnier in die DB schreiben
+            console.log('Turnier erstellt:', createdTournament);
+            navigate('/overview', { state: createdTournament }); // Weiterleitung zur Übersicht
+        } catch (error) {
+            console.error('Fehler beim Erstellen des Turniers:', error);
+        }
     };
 
     return (

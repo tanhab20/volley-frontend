@@ -1,7 +1,7 @@
 import React from 'react';
 import { ITournament } from '../model/ITournament';
 import { useLocation, useNavigate } from 'react-router-dom';
-import "../Overview.css"
+import "../styles/Overview.css"
 
 const TournamentOverview: React.FC = () => {
     const location = useLocation();
