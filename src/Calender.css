@@ -3,6 +3,7 @@
 
     position: relative; /* Positionierung erforderlich */
     overflow: hidden; /* Verhindert, dass der Kalender über die Container-Grenzen hinausragt */
+
 }
 
 .react-calendar {

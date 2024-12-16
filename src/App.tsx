@@ -21,6 +21,7 @@ function App() {
                     <Route path="/" element={<Turniere />} />
                     <Route path="/form" element={<Form />} />
                     <Route path="/tournaments" element={<Turniere />} />
+                    <Route path="/overview" element={<TournamentOverview />} />
                     <Route path="/tournament/:id" element={<TurnierDetail />} />
                     <Route path="/calendar" element={<TurnierKalender />} />
                     <Route path="/calendartournament" element={<KalenderTurnierSeite />} />
