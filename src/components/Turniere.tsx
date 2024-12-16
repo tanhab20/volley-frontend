@@ -1,55 +1,191 @@
-import React, {useEffect, useState} from "react";
-import { useNavigate } from 'react-router-dom';
-import { mockTournaments } from "../mock/MockdataTournament";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { deleteTournament, getAllTournaments } from "../axios/tournamentService";
 import { GrEdit } from "react-icons/gr";
 import { MdDelete } from "react-icons/md";
-import {deleteTournament, getAllTournaments} from "../axios/tournamentService";
-import {ITournament} from "../model/ITournament";
+import { LuFilter } from "react-icons/lu";
+import { ITournament } from "../model/ITournament";
+import "../Tournament.css";
+
+const getUniqueSortedValues = (array: string[]) => {
+  return Array.from(new Set(array)).sort();
+};
 
 const Turniere: React.FC = () => {
-    const navigate = useNavigate();
-    const [tournaments, setTournaments] = useState<ITournament[]>([]);
+  const navigate = useNavigate();
+  const [tournaments, setTournaments] = useState<ITournament[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [sortOption, setSortOption] = useState("dateAsc");
 
-    useEffect(() => {
-        const fetchTournaments = async () => {
-            try {
-                const data = await getAllTournaments(); // Daten aus dem Service holen
-                setTournaments(data); // Daten in den State speichern
-            } catch (error) {
-                console.error("Fehler beim Laden der Turniere:", error);
-            }
-        };
-
-        fetchTournaments();
-    }, []);
-
-
-    const handleDelete = async (id: string) => {
-        try {
-            await deleteTournament(id);
-            const updatedTournaments = tournaments.filter((t) => t._id !== id); // Aktualisiere den State
-            setTournaments(updatedTournaments);
-            console.log("Turnier erfolgreich gelöscht:", id);
-        } catch (error) {
-            console.error("Fehler beim Löschen des Turniers:", error);
-        }
+  // Daten vom Backend holen
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const data = await getAllTournaments(); // Daten aus dem Service holen
+        setTournaments(data); // Daten in den State speichern
+      } catch (error) {
+        console.error("Fehler beim Laden der Turniere:", error);
+      }
     };
 
-    return (
-        <div className="tournament-list">
-            {tournaments.map((turnier) => (
-                <div key={turnier._id} className="tournament-list-item">
-                    <h2>{turnier.name}</h2>
-                    <button className={"edi"} name={"edi"} id={"edi"}  onClick={() => navigate(`/edit-tournament/${turnier._id}`)}><GrEdit/> Bearbeiten</button>
-                    <button className={"del"} name={"del"} id={"del"} onClick={() => handleDelete(turnier._id)} ><MdDelete/> Delete</button>
-                    <p><strong>Datum:</strong> {new Date(turnier.date).toLocaleDateString()}</p>
-                    <p><strong>Veranstaltungsort:</strong> {turnier.location}</p>
-                    <p><strong>Dauer:</strong> {turnier.duration}</p>
-                    <button type={"submit"} onClick={() => navigate(`/tournament/${turnier._id}`)}>Mehr Details</button>
-                </div>
-            ))}
-        </div>
+    fetchTournaments();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteTournament(id); // Löschen des Turniers über den Backend-Service
+      const updatedTournaments = tournaments.filter((t) => t._id !== id); // State aktualisieren
+      setTournaments(updatedTournaments);
+      console.log("Turnier erfolgreich gelöscht:", id);
+    } catch (error) {
+      console.error("Fehler beim Löschen des Turniers:", error);
+    }
+  };
+
+  const locations = getUniqueSortedValues(tournaments.map((t) => t.location));
+  const durations = getUniqueSortedValues(tournaments.map((t) => t.duration));
+
+  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const location = event.target.value;
+    setSelectedLocations((prev) =>
+      prev.includes(location)
+        ? prev.filter((item) => item !== location)
+        : [...prev, location]
     );
+  };
+
+  const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const duration = event.target.value;
+    setSelectedDurations((prev) =>
+      prev.includes(duration)
+        ? prev.filter((item) => item !== duration)
+        : [...prev, duration]
+    );
+  };
+
+  // Filterung der Turniere
+  const filteredTournaments = tournaments.filter((turnier) => {
+    const locationMatch = selectedLocations.length === 0 || selectedLocations.includes(turnier.location);
+    const durationMatch = selectedDurations.length === 0 || selectedDurations.includes(turnier.duration);
+    return locationMatch && durationMatch;
+  });
+
+  // Sortierung der Turniere
+  const sortedTournaments = filteredTournaments.sort((a, b) => {
+    if (sortOption === "dateAsc") {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    }
+    if (sortOption === "dateDesc") {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    }
+    if (sortOption === "nameAsc") {
+      return a.name.localeCompare(b.name);
+    }
+    if (sortOption === "nameDesc") {
+      return b.name.localeCompare(a.name);
+    }
+    return 0;
+  });
+
+  return (
+    <div className="tournament-list">
+      <div className="sort-filter-container">
+        <div className="sort-section">
+          <label className={"sortname"} htmlFor="sort">Sortiere nach:</label>
+          <select
+            id="sort"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="dateAsc">Datum (älteres zuerst)</option>
+            <option value="dateDesc">Datum (jüngeres zuerst)</option>
+            <option value="nameAsc">Name (A-Z)</option>
+            <option value="nameDesc">Name (Z-A)</option>
+          </select>
+        </div>
+
+        <div className="filter-section">
+          <button
+            className="filter-toggle"
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+          >
+            <LuFilter />
+          </button>
+
+          {isFilterOpen && (
+            <div className="filter-options">
+              {/* Veranstaltungsort Filter */}
+              <div className="filter-category">
+                <h3>Veranstaltungsort</h3>
+                <div className="checkbox-group">
+                  {locations.map((location, index) => (
+                    <div key={index}>
+                      <input
+                        type="checkbox"
+                        id={location}
+                        value={location}
+                        checked={selectedLocations.includes(location)}
+                        onChange={handleLocationChange}
+                      />
+                      <label htmlFor={location}>{location}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Dauer Filter */}
+              <div className="filter-category">
+                <h3>Dauer</h3>
+                <div className="checkbox-group">
+                  {durations.map((duration, index) => (
+                    <div key={index}>
+                      <input
+                        type="checkbox"
+                        id={duration}
+                        value={duration}
+                        checked={selectedDurations.includes(duration)}
+                        onChange={handleDurationChange}
+                      />
+                      <label htmlFor={duration}>{duration}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {sortedTournaments.map((turnier) => (
+        <div key={turnier._id} className="tournament-list-item">
+          <h2>{turnier.name}</h2>
+          <button
+            className={"edi"}
+            onClick={() => navigate(`/edit-tournament/${turnier._id}`)}
+          >
+            <GrEdit /> Bearbeiten
+          </button>
+          <button
+            className={"del"}
+            onClick={() => handleDelete(turnier._id)}
+          >
+            <MdDelete /> Löschen
+          </button>
+          <p><strong>Datum:</strong> {new Date(turnier.date).toLocaleDateString()}</p>
+          <p><strong>Veranstaltungsort:</strong> {turnier.location}</p>
+          <p><strong>Dauer:</strong> {turnier.duration}</p>
+          <button
+            type="submit"
+            onClick={() => navigate(`/tournament/${turnier._id}`)}
+          >
+            Mehr Details
+          </button>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default Turniere;
