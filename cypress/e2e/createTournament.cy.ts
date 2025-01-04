@@ -4,7 +4,7 @@ import * as cypress from "cypress";
 describe('Tournament Form', () => {
 
     beforeEach(() => {
-        cy.visit('http://web:3000/Form');
+        cy.visit('http://localhost:3000/Form');
     });
 
     it('should fill out the form and submit successfully', () => {
@@ -32,7 +32,7 @@ describe('Tournament Form', () => {
         });
 
 
-        cy.url().should('eq', `http://web:3000/overview`);
+        cy.url().should('eq', `http://localhost:3000/overview`);
     });
 });
 

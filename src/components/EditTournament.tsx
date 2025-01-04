@@ -56,7 +56,7 @@ const EditTournament: React.FC = () => {
                     duration: formData.duration
                 });
                 alert("Änderungen gespeichert!");
-                navigate("/"); // Zurück zur Startseite
+                navigate('/');
             }
         } catch (error) {
             console.error("Fehler beim Aktualisieren des Turniers:", error);
@@ -64,7 +64,7 @@ const EditTournament: React.FC = () => {
     };
 
     if (isLoading) {
-        return <p>Loading tournament data...</p>; // Ladeanzeige
+        return <p>Loading tournament data...</p>;
     }
 
     return (
