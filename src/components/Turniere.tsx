@@ -6,8 +6,9 @@ import { MdDelete } from "react-icons/md";
 import { LuFilter } from "react-icons/lu";
 import { ITournament } from "../model/ITournament";
 import "../Tournament.css";
-import { IUser } from "../model/IUser";
-import { decodeToken } from "../util/util.jwt";
+import {IUser} from "../model/IUser";
+import {decodeToken} from "../util/util.jwt";
+
 
 const getUniqueSortedValues = (array: string[]) => {
   return Array.from(new Set(array)).sort();
