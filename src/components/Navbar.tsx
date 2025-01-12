@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                <Link to="/" className="navbar-logo">Volleymaster</Link>
+                <Link to="/" className="navbar-logo">VolleymasterRRR</Link>
                 <div className="navbar-links">
                     <Link to="/tournaments" className={`navbar-link ${!isAuthenticated ? 'disabled-link' : ''}`} aria-disabled={!isAuthenticated}>
                         Turniere
@@ -53,9 +53,7 @@ const Navbar: React.FC = () => {
                     <Link to="/calendar" className={`navbar-link ${!isAuthenticated ? 'disabled-link' : ''}`} aria-disabled={!isAuthenticated}>
                         Turnierkalender
                     </Link>
-                    <Link to="/calendar" className={`navbar-link ${!isAuthenticated ? 'disabled-link' : ''}`} aria-disabled={!isAuthenticated}>
-                        tEST
-                    </Link>
+
                     <button className="logout-button" onClick={handleLogout} disabled={!isAuthenticated}>
                         Logout
                     </button>
