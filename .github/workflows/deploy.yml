@@ -3,7 +3,7 @@ name: Deploy to Uberspace
 on:
   push:
     branches:
-      - main  # Oder dein Branch für das Deployment
+      - main  # Oder dein Deploy-Branch
 
 jobs:
   deploy:
@@ -16,11 +16,27 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
-      - name: Deploy to Uberspace
+      - name: Deploy to Server
         run: |
           sshpass -p "${{ secrets.UBERSPACE_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.UBERSPACE_USER }}@${{ secrets.UBERSPACE_HOST }} << 'EOF'
-            cd ~/volley-frontend
+            # 1️⃣ Ins richtige Verzeichnis wechseln
+            cd /var/www/virtual/kavolley/
+          
+            # 2️⃣ Repo klonen (oder falls schon vorhanden: Update)
+            if [ ! -d "volley-frontend" ]; then
+              git clone https://github.com/tanhab20/volley-frontend.git
+            fi
+            cd volley-frontend
             git pull origin main
-            npm install --production
-            pm2 restart volley-frontend  # Falls du PM2 benutzt
+          
+            # 3️⃣ Dependencies installieren & Build erstellen
+            npm install
+            npm run build
+          
+            # 4️⃣ Build verschieben & alten HTML-Ordner ersetzen
+            mv build html
+            rm -r /var/www/virtual/kavolley/html/
+            cp -r ./html /var/www/virtual/kavolley/html/
+
+            echo "✅ Deployment erfolgreich!"
           EOF
