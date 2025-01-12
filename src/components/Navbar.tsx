@@ -53,6 +53,9 @@ const Navbar: React.FC = () => {
                     <Link to="/calendar" className={`navbar-link ${!isAuthenticated ? 'disabled-link' : ''}`} aria-disabled={!isAuthenticated}>
                         Turnierkalender
                     </Link>
+                    <Link to="/calendar" className={`navbar-link ${!isAuthenticated ? 'disabled-link' : ''}`} aria-disabled={!isAuthenticated}>
+                        tEST
+                    </Link>
                     <button className="logout-button" onClick={handleLogout} disabled={!isAuthenticated}>
                         Logout
                     </button>
