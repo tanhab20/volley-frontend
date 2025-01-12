@@ -1,0 +1,26 @@
+name: Deploy to Uberspace
+
+on:
+  push:
+    branches:
+      - main  # Oder dein Branch für das Deployment
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Deploy to Uberspace
+        run: |
+          sshpass -p "${{ secrets.UBERSPACE_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.UBERSPACE_USER }}@${{ secrets.UBERSPACE_HOST }} << 'EOF'
+            cd ~/volley-frontend
+            git pull origin main
+            npm install --production
+            pm2 restart volley-frontend  # Falls du PM2 benutzt
+          EOF
