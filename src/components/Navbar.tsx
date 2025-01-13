@@ -12,7 +12,6 @@ const Navbar: React.FC = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
-        const roleToken = localStorage.getItem('roleToken');
         if (token) {
             setIsAuthenticated(true)
             setUser(decodeToken(token).user);
@@ -37,13 +36,13 @@ const Navbar: React.FC = () => {
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                <Link to="/" className="navbar-logo">VolleymasterR</Link>
+                <Link to="/" className="navbar-logo">VolleymasterRr</Link>
                 <div className="navbar-links">
                     <Link to="/tournaments" className={`navbar-link ${!isAuthenticated ? 'disabled-link' : ''}`} aria-disabled={!isAuthenticated}>
                         Turniere
                     </Link>
 
-                    {/* Nur anzeigen, wenn der Benutzer ein Admin ist */}
+
                     {isAdmin && (
                         <Link to="/form" className="navbar-link">
                             Form

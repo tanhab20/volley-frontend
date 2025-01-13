@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {ITournament} from "../model/ITournament";
 
 const BASE_URL = 'http://localhost:4000/tournaments/';
 
