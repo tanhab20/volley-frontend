@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
     return (
         <nav className="navbar">
             <div className="navbar-container">
-                <Link to="/" className="navbar-logo">Volleymaster</Link>
+                <Link to="/" className="navbar-logo">Volleymasterrrr</Link>
                 <div className="navbar-links">
                     <Link to="/tournaments" className={`navbar-link ${!isAuthenticated ? 'disabled-link' : ''}`} aria-disabled={!isAuthenticated}>
                         Turniere
