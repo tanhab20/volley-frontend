@@ -3,7 +3,7 @@ name: Deploy to Uberspace
 on:
   push:
     branches:
-      - main  # Passe den Branch an, falls notwendig
+      - main
 
 jobs:
   deploy:
@@ -21,35 +21,34 @@ jobs:
           sshpass -p "${{ secrets.UBERSPACE_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.UBERSPACE_USER }}@${{ secrets.UBERSPACE_HOST }} << 'EOF'
             set -e  # Stoppt bei einem Fehler
 
-            # 1️⃣ Ins richtige Verzeichnis navigieren
+            #  Ins richtige Verzeichnis navigieren
             cd /var/www/virtual/kavolley/
 
-            # 2️⃣ Repo klonen oder updaten
+            #  Repo klonen oder updaten
             if [ ! -d "volley-frontend/.git" ]; then
-              echo "⚠️ Repo nicht gefunden, klone es..."
               rm -rf volley-frontend
               git clone https://github.com/tanhab20/volley-frontend.git
             fi
             cd volley-frontend
             git pull origin main
 
-            # 3️⃣ Installiere Abhängigkeiten & baue das Projekt
+            # Installiere Abhängigkeiten & baue das Projekt
             npm install
 
             # Sicherheitslücken beheben (falls möglich)
-            npm audit fix || echo "⚠️ Konnte nicht alle Sicherheitslücken automatisch beheben"
+            npm audit fix 
 
             # Baue das Projekt
             npm run build
 
-            # 4️⃣ Alte HTML-Dateien sicher entfernen & neue übernehmen
+            # Alte HTML-Dateien sicher entfernen & neue übernehmen
             if [ -d "/var/www/virtual/kavolley/html" ]; then
-              echo "⚠️ Entferne alte HTML-Dateien..."
+    
               rm -rf /var/www/virtual/kavolley/html  # Lösche das alte html-Verzeichnis
             fi
 
-            echo "📦 Verschiebe neues Build-Verzeichnis nach html..."
+          
             mv build /var/www/virtual/kavolley/html  # Verschiebe das neue Build-Verzeichnis
 
-            echo "✅ Deployment erfolgreich!"
+          
           EOF
