@@ -20,7 +20,7 @@ const Login: React.FC = () => {
         const password = e.currentTarget.password.value;
 
         try {
-            const response = await axios.post('http://localhost:4001/api/login', {
+            const response = await axios.post('https://kavolley.uber.space/api/login', {
                 username,
                 password,
             });

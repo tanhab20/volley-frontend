@@ -21,7 +21,8 @@ const EditTournament: React.FC = () => {
         const fetchTournament = async () => {
             try {
                 if (id) {
-                    const tournament = await getTournamentById(id); // Turnierdaten abrufen
+                    const tournament = await getTournamentById(id);
+                    console.log(tournament)
                     setFormData({
                         name: tournament.name,
                         date: new Date(tournament.date).toISOString().split("T")[0],
@@ -32,7 +33,7 @@ const EditTournament: React.FC = () => {
             } catch (error) {
                 console.error("Fehler beim Abrufen des Turniers:", error);
             } finally {
-                setIsLoading(false); // Ladeanzeige beenden
+                setIsLoading(false);
             }
         };
 
