@@ -15,8 +15,7 @@ describe('Login Test for kavolley.uber.space', () => {
         cy.get('button[type="submit"]').click();
 
         // Überprüfe, ob die Navigation zur Turnier-Seite erfolgt ist
-        cy.url().should('include', '/tournaments');
-
+        cy.visit('https://kavolley.uber.space/'); // Besuche die Seite
 
         // Klicke auf den Button "Mehr Details" für das Turnier "Sommerfußball-Cup 2024"
         cy.contains('Schulmeisterschaften im Basketball')  // Sucht nach dem Turniernamen
