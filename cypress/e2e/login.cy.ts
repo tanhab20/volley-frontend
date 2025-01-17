@@ -16,5 +16,25 @@ describe('Login Test for kavolley.uber.space', () => {
 
         // Überprüfe, ob die Navigation zur Turnier-Seite erfolgt ist
         cy.url().should('include', '/tournaments');
+
+        cy.visit('https://kavolley.uber.space/tournaments');
+
+        // Klicke auf den Button "Mehr Details" für das Turnier "Sommerfußball-Cup 2024"
+        cy.contains('Schulmeisterschaften im Basketball')  // Sucht nach dem Turniernamen
+            .parents('.tournament-list-item')   // Geht zum übergeordneten Element (Turnier-Item)
+            .within(() => {
+                cy.contains('Mehr Details').click();  // Klick auf den "Mehr Details" Button
+            });
+
+        // Bestätige, dass die Detailseite geladen wird (prüfe, ob der Titel des Turniers vorhanden ist)
+        cy.contains('Schulmeisterschaften im Basketball'); // Überprüft, ob der Name des Turniers auf der Detailseite erscheint
+
+        // Klicke auf den "Für Turnier einschreiben" Button
+        cy.contains('Für Turnier einschreiben').click();
+
+        // Überprüfe, dass die Bestätigungs-Alert erscheint
+        cy.on('window:alert', (str) => {
+            expect(str).to.equal('Team für das Turnier Schulmeisterschaften im Basketball eingeschrieben!');
+        });
     });
 });
