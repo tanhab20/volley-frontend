@@ -3,7 +3,7 @@ import * as cypress from "cypress";
 describe('Turnierdetail - Einschreiben und Bestätigung', () => {
     it('sollte das Team für ein Turnier einschreiben und eine Bestätigung anzeigen', () => {
         // Gehe zur Turnierübersicht (ersetze ggf. die URL mit der richtigen)
-        cy.visit('http://localhost:3000/tournaments');
+        cy.visit('https://kavolley.uber.space/tournaments');
 
         // Klicke auf den Button "Mehr Details" für das Turnier "Sommerfußball-Cup 2024"
         cy.contains('Schulmeisterschaften im Basketball')  // Sucht nach dem Turniernamen

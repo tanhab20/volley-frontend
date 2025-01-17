@@ -4,7 +4,7 @@ describe('Turniere Seite - Performance Test', () => {
     it('should load the tournament list within 2 seconds', () => {
         const startTime = performance.now();
 
-        cy.visit('http://localhost:3000/tournaments');
+        cy.visit('https://kavolley.uber.space/tournaments');
 
         const endTime = performance.now();
         const loadTime = endTime - startTime;

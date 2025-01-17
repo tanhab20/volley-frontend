@@ -6,7 +6,7 @@ describe('Kalender Performance Test', () => {
         const startTime = performance.now();
 
 
-        cy.visit('http://localhost:3000/calendar');
+        cy.visit('https://kavolley.uber.space/calendar');
 
 
         cy.get('.custom-calendar').should('be.visible');

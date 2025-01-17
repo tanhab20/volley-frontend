@@ -2,7 +2,7 @@ import * as cypress from "cypress";
 
 describe('Delete Tournament', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/tournaments');
+        cy.visit('https://kavolley.uber.space/tournaments');
     });
 
     it('should delete the tournament with the name "Internationales Schachturnier"', () => {

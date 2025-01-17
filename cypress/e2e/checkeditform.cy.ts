@@ -3,7 +3,7 @@ import * as cypress from "cypress";
 describe('Edit Tournament', () => {
     beforeEach(() => {
 
-        cy.visit('http://localhost:3000/tournaments');
+        cy.visit('https://kavolley.uber.space/tournaments');
     });
 
     it('should fill the edit form with the correct tournament data', () => {

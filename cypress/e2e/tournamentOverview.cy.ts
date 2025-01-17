@@ -4,7 +4,7 @@ describe('Turnierübersicht - Navigation und Anzeige von Details', () => {
     it('zeigt alle Turniere und ermöglicht die Navigation zur Detailseite für "Schulmeisterschaften im Basketball"', () => {
 
         // Besuche die Turnierübersicht
-        cy.visit('http://localhost:3000/tournaments');
+        cy.visit('https://kavolley.uber.space/tournaments');
 
         // Überprüfe, ob das Turnier "Schulmeisterschaften im Basketball" aufgelistet ist
         cy.contains('Schulmeisterschaften im Basketball').should('be.visible');

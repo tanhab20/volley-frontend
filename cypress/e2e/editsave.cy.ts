@@ -1,7 +1,7 @@
 import * as cypress from "cypress";
 describe('Edit Tournament', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/tournaments');
+        cy.visit('https://kavolley.uber.space/tournaments');
     });
 
     it('should save the changes correctly when editing a tournament', () => {
