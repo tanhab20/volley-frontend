@@ -18,37 +18,34 @@ describe('Turnierübersicht - Navigation und Anzeige von Details', () => {
         cy.visit('https://kavolley.uber.space/');
         cy.url().should('include', '/tournaments');
 
-        // Speichern der Daten des ersten Turniers in Variablen
-        let tournamentName, tournamentDate, tournamentLocation, tournamentDuration;
-
+        // Speichern der Daten des ersten Turniers
         cy.get('.tournament-list-item').first().within(() => {
-            cy.get('h2').invoke('text').then((text) => {
-                tournamentName = text;  // Speichern des Turniernamen
-                cy.log('Turniername gespeichert:', tournamentName);  // Logge den Turniernamen
-            });
-            cy.get('#datum').invoke('text').then((text) => {
-                tournamentDate = text;  // Speichern des Datums
-                cy.log('Turnierdatum gespeichert:', tournamentDate);  // Logge das Datum
-            });
-            cy.get('#ort').invoke('text').then((text) => {
-                tournamentLocation = text;  // Speichern des Veranstaltungsortes
-                cy.log('Turnierort gespeichert:', tournamentLocation);  // Logge den Ort
-            });
-            cy.get('#dauer').invoke('text').then((text) => {
-                tournamentDuration = text;  // Speichern der Dauer
-                cy.log('Turnierdauern gespeichert:', tournamentDuration);  // Logge die Dauer
-            });
-
+            cy.get('h2').invoke('text').as('tournamentName');  // Turniername speichern
+            cy.get('#datum').invoke('text').as('tournamentDate');  // Datum speichern
+            cy.get('#ort').invoke('text').as('tournamentLocation');  // Veranstaltungsort speichern
+            cy.get('#dauer').invoke('text').as('tournamentDuration'); // Dauer speichern
             cy.contains('Mehr Details').click();  // Klick auf den "Mehr Details" Button
         });
+        
 
         // Warte auf die URL, die das Turnierdetail enthält
         cy.url().should('include', '/tournament/');
 
         // Überprüfe, ob die Turnierdetails korrekt angezeigt werden
-        cy.get('#name').should('have.text', tournamentName);  // Überprüfe den Namen des Turniers
-        cy.get('#date').should('have.text', 'Datum: ' + tournamentDate);  // Überprüfe das Datum
-        cy.get('#ort').should('have.text', 'Veranstaltungsort: ' + tournamentLocation);  // Überprüfe den Veranstaltungsort
-        cy.get('#duration').should('have.text', 'Dauer: ' + tournamentDuration);  // Überprüfe die Dauer
+        cy.get('@tournamentName').then((name) => {
+            cy.get('#name').should('have.text', name);  // Überprüfe den Namen des Turniers
+        });
+        cy.get('@tournamentDate').then((date) => {
+            cy.log('Überprüfe das Turnierdatum:', date);  // Logge das Datum vor der Prüfung
+            cy.get('#date').should('have.text', 'Datum: ' + date);  // Überprüfe das Datum
+        });
+        cy.get('@tournamentLocation').then((location) => {
+            cy.log('Überprüfe den Turnierort:', location);  // Logge den Veranstaltungsort vor der Prüfung
+            cy.get('#ort').should('have.text', 'Veranstaltungsort: ' + location);  // Überprüfe den Veranstaltungsort
+        });
+        cy.get('@tournamentDuration').then((duration) => {
+            cy.log('Überprüfe die Turnierdauern:', duration);  // Logge die Dauer vor der Prüfung
+            cy.get('#duration').should('have.text', 'Dauer: ' + duration);  // Überprüfe die Dauer
+        });
     });
 });
