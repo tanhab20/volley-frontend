@@ -26,7 +26,7 @@ describe('Turnierübersicht - Navigation und Anzeige von Details', () => {
             cy.get('#dauer').invoke('text').as('tournamentDuration'); // Dauer speichern
             cy.contains('Mehr Details').click();  // Klick auf den "Mehr Details" Button
         });
-        
+
 
         // Warte auf die URL, die das Turnierdetail enthält
         cy.url().should('include', '/tournament/');
