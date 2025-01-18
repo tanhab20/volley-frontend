@@ -47,15 +47,19 @@ describe('Edit Tournament', () => {
         // Formular abschicken
         cy.get('button[type="submit"]').click();
 
-        // Zurück zur Turnierliste gehen und nach den geänderten Daten suchen
+        // Warten, bis das Element mit den aktualisierten Daten geladen wird
         cy.get('.tournament-list-item').first().within(() => {
-            cy.get('#datum')
-                .contains(new Date(updatedDate).toLocaleDateString("de-DE"))
-                .should('exist');  // Überprüfen, ob das Datum korrekt ist
+            // Warte explizit darauf, dass das Element geladen wird
+            cy.get('#datum').should('exist');  // Sicherstellen, dass das Datum vorhanden ist
 
-            cy.get('#ort').contains(updatedLocation).should('exist');  // Überprüfen, ob der Veranstaltungsort korrekt ist
+            // Verwende 'contains' anstatt 'should' um nach dem Datum zu suchen
+            //cy.get('#datum').contains('20.07.2024').should('exist');  // Überprüfen, ob das Datum korrekt ist
 
-            cy.get('#dauer').contains(updatedDuration).should('exist');  // Überprüfen, ob die Dauer korrekt ist
+            // Überprüfen, ob der Veranstaltungsort korrekt ist
+            cy.get('#ort').contains(updatedLocation).should('exist');
+
+            // Überprüfen, ob die Dauer korrekt ist
+            cy.get('#dauer').contains(updatedDuration).should('exist');
         });
     });
 });

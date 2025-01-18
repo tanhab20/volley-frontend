@@ -1,3 +1,4 @@
+import * as cypress from "cypress";
 describe('Edit Tournament', () => {
     it('should prefill the form with the correct tournament data', () => {
         cy.visit('https://kavolley.uber.space/');
