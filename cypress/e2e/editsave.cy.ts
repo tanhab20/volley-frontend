@@ -53,7 +53,7 @@ describe('Edit Tournament', () => {
             cy.get('#datum').should('exist');  // Sicherstellen, dass das Datum vorhanden ist
 
             // Verwende 'contains' anstatt 'should' um nach dem Datum zu suchen
-            //cy.get('#datum').contains('20.07.2024').should('exist');  // Überprüfen, ob das Datum korrekt ist
+            cy.get('#datum').contains('2024-07-20').should('exist');  // Überprüfen, ob das Datum korrekt ist
 
             // Überprüfen, ob der Veranstaltungsort korrekt ist
             cy.get('#ort').contains(updatedLocation).should('exist');
