@@ -74,19 +74,19 @@ const EditTournament: React.FC = () => {
             <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
                 <div className="form-group">
                     <label>Name:</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                    <input type="text" name="name" id={"name"} value={formData.name} onChange={handleChange} />
                 </div>
                 <div className="form-group">
                     <label>Datum:</label>
-                    <input type="date" name="date" value={formData.date} onChange={handleChange} />
+                    <input type="date" name="date"  id={"date"} value={formData.date} onChange={handleChange} />
                 </div>
                 <div className="form-group">
                     <label>Veranstaltungsort:</label>
-                    <input type="text" name="location" value={formData.location} onChange={handleChange} />
+                    <input type="text" name="location" id={"location"} value={formData.location} onChange={handleChange} />
                 </div>
                 <div className="form-group">
                     <label>Dauer:</label>
-                    <input type="text" name="duration" value={formData.duration} onChange={handleChange} />
+                    <input type="text" name="duration"  id={"duration"} value={formData.duration} onChange={handleChange} />
                 </div>
                 <button type="submit">Speichern</button>
                 <button type="button" onClick={() => navigate("/")}>Abbrechen</button>

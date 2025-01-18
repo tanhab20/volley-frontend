@@ -1,26 +1,42 @@
 import * as cypress from "cypress";
 
+
 describe('Turnierdetail - Einschreiben und Bestätigung', () => {
-    it('sollte das Team für ein Turnier einschreiben und eine Bestätigung anzeigen', () => {
-        // Gehe zur Turnierübersicht (ersetze ggf. die URL mit der richtigen)
-        cy.visit('https://kavolley.uber.space/tournaments');
+    it('sollte das Team für das oberste Turnier einschreiben und eine Bestätigung anzeigen', () => {
+        cy.visit('https://kavolley.uber.space/');
 
-        // Klicke auf den Button "Mehr Details" für das Turnier "Sommerfußball-Cup 2024"
-        cy.contains('Schulmeisterschaften im Basketball')  // Sucht nach dem Turniernamen
-            .parents('.tournament-list-item')   // Geht zum übergeordneten Element (Turnier-Item)
-            .within(() => {
-                cy.contains('Mehr Details').click();  // Klick auf den "Mehr Details" Button
-            });
+        // Sicherstellen, dass alles geladen ist
+        cy.get('input#username').should('be.visible');
+        cy.get('input#password').should('be.visible');
+        cy.get('button[type="submit"]').should('be.visible');
 
-        // Bestätige, dass die Detailseite geladen wird (prüfe, ob der Titel des Turniers vorhanden ist)
-        cy.contains('Schulmeisterschaften im Basketball'); // Überprüft, ob der Name des Turniers auf der Detailseite erscheint
+        // Ausfüllen der Login-Daten
+        cy.get('input#username').type('tanhab20');
+        cy.get('input#password').type('password');
+        cy.get('button[type="submit"]').click();
 
-        // Klicke auf den "Für Turnier einschreiben" Button
+        cy.visit('https://kavolley.uber.space/');
+        cy.url().should('include', '/tournaments');
+
+        // Wählen des obersten Turniers und Klicken auf "Mehr Details"
+        cy.get('.tournament-list-item').first().within(() => {
+            // Holen des Turniernamen, um ihn später im Alert zu verwenden
+            cy.get('h2').invoke('text').as('tournamentName');
+            cy.contains('Mehr Details').click();  // Klick auf "Mehr Details"
+        });
+
+
+        cy.get('h2').should('exist');
+
+
         cy.contains('Für Turnier einschreiben').click();
 
-        // Überprüfe, dass die Bestätigungs-Alert erscheint
+
         cy.on('window:alert', (str) => {
-            expect(str).to.equal('Team für das Turnier Schulmeisterschaften im Basketball eingeschrieben!');
+
+            cy.get('@tournamentName').then((tournamentName) => {
+                expect(str).to.equal(`Team für das Turnier ${tournamentName} eingeschrieben!`);
+            });
         });
     });
 });
