@@ -192,9 +192,9 @@ const Turniere: React.FC = () => {
                   </>
               )}
 
-              <p><strong>Datum:</strong> {new Date(turnier.date).toLocaleDateString()}</p>
-              <p><strong>Veranstaltungsort:</strong> {turnier.location}</p>
-              <p><strong>Dauer:</strong> {turnier.duration}</p>
+              <p id={"datum"}><strong>Datum:</strong> {new Date(turnier.date).toLocaleDateString()}</p>
+              <p id={"ort"}><strong>Veranstaltungsort:</strong> {turnier.location}</p>
+              <p id={"dauer"}><strong>Dauer:</strong> {turnier.duration}</p>
               <button
                   type="submit"
                   onClick={() => navigate(`/tournament/${turnier._id}`)}
