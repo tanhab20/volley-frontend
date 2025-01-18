@@ -34,10 +34,10 @@ const TurnierDetail: React.FC = () => {
 
     return (
         <div className="tournament-overview">
-            <h2>{tournament.name}</h2>
-            <p><strong>Datum:</strong> {new Date(tournament.date).toLocaleDateString()}</p>
-            <p><strong>Veranstaltungsort:</strong> {tournament.location}</p>
-            <p><strong>Dauer:</strong> {tournament.duration}</p>
+            <h2 id={"name"}>{tournament.name}</h2>
+            <p id={"date"}><strong>Datum:</strong> {new Date(tournament.date).toLocaleDateString()}</p>
+            <p id={"ort"}><strong>Veranstaltungsort:</strong> {tournament.location}</p>
+            <p id={"duration"}><strong>Dauer:</strong> {tournament.duration}</p>
             <p><strong>Beschreibung:</strong> {tournament.description}</p>
             <button type={"submit"} onClick={handleEinschreiben}>Für Turnier einschreiben</button>
         </div>

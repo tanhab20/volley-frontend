@@ -1,5 +1,4 @@
 import * as cypress from "cypress";
-import * as cypress from "cypress";
 
 describe('Edit Tournament', () => {
     it('should save the changes correctly when editing the first tournament in the list', () => {
