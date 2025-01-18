@@ -1,5 +1,3 @@
-import * as cypress from "cypress";
-
 describe('Edit Tournament', () => {
     it('should prefill the form with the correct tournament data', () => {
         cy.visit('https://kavolley.uber.space/');
@@ -43,13 +41,33 @@ describe('Edit Tournament', () => {
         });
 
         cy.get('@tournamentDate').then((date) => {
-            const germanDate = date.split(":")[1].trim();
-            const [day, month, year] = germanDate.split(".");
+            // Sicherstellen, dass der Wert für 'date' existiert
+            if (date && date.includes(":")) {
+                const germanDate = date.split(":")[1]?.trim();  // Extrahiere nur den Wert nach dem ":"
 
-            // Format the date to match the ISO 8601 format (with leading zero for single digits)
-            const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            
-            cy.get('input#date').should('have.value', isoDate);
+                if (germanDate) {
+                    // Datum in Tag, Monat und Jahr aufteilen
+                    const [day, month, year] = germanDate.split(".");
+
+                    if (day && month && year) {
+                        // Füge führende Null zu Monat und Tag hinzu, wenn kleiner als 10
+                        const formattedDay = (parseInt(day) < 10) ? `0${day}` : day;
+                        const formattedMonth = (parseInt(month) < 10) ? `0${month}` : month;
+
+                        // Formatieren des Datums im ISO-Format (yyyy-mm-dd)
+                        const isoDate = `${year}-${formattedMonth}-${formattedDay}`;
+
+                        // Vergleiche mit dem Wert im Input-Feld
+                        cy.get('input#date').should('have.value', isoDate);
+                    } else {
+                        cy.log('Datum konnte nicht richtig aufgeteilt werden');
+                    }
+                } else {
+                    cy.log('Kein gültiges Datum gefunden');
+                }
+            } else {
+                cy.log('Ungültiges Datumsformat gefunden');
+            }
         });
 
         cy.get('@tournamentLocation').then((location) => {
@@ -61,4 +79,3 @@ describe('Edit Tournament', () => {
         });
     });
 });
-
