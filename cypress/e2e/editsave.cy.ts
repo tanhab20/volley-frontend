@@ -50,7 +50,7 @@ describe('Edit Tournament', () => {
         // Warten, bis das Element mit den aktualisierten Daten geladen wird
         cy.get('.tournament-list-item').first().within(() => {
             // Warte explizit darauf, dass das Element geladen wird
-            
+
 
             // Überprüfen, ob der Veranstaltungsort korrekt ist
             cy.get('#ort').contains(updatedLocation).should('exist');
