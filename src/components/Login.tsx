@@ -30,7 +30,7 @@ const Login: React.FC = () => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('roleToken', roleToken);
 
-            navigate('https://kavolley.uber.space/');
+            navigate('https://kavolley.uber.space');
             window.location.reload();
         } catch (error) {
             console.error('Login fehlgeschlagen', error);

@@ -87,7 +87,7 @@ const Form: React.FC = () => {
                         required
                     />
                 </div>
-                <button type="submit">Turnier erstellen</button>
+                <button type="submit" id={"submitButton"}>Turnier erstellen</button>
             </form>
         </div>
     );
