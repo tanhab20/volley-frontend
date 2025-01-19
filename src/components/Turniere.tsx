@@ -101,6 +101,12 @@ const Turniere: React.FC = () => {
     return 0;
   });
 
+  const handleFilterToggle = () => {
+    console.log('Before toggle:', isFilterOpen);
+    setIsFilterOpen((prev) => !prev);
+    console.log('After toggle:', isFilterOpen);
+  };
+
   return (
       <div className="tournament-list">
         <div className="sort-filter-container">
@@ -119,9 +125,7 @@ const Turniere: React.FC = () => {
           </div>
 
           <div className="filter-section">
-            <button
-                className="filter-toggle"
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
+            <button className="filter-toggle" onClick={handleFilterToggle}
             >
               <LuFilter />
             </button>

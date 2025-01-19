@@ -107,78 +107,64 @@ describe('Turniere Filter und Sortieren', () => {
         cy.visit('https://kavolley.uber.space/');
         cy.url().should('include', '/tournaments');
 
-        // Zeige die Filter-Optionen
-        cy.get('.filter-toggle').click();
-        // Sicherstellen, dass die Filter-Optionen angezeigt werden
+
+        cy.get('.filter-toggle').click().click();
+
         cy.get('.filter-options').should('be.visible');
 
-        // Holen Sie sich den Veranstaltungsort des ersten Turniers
+        // Select a specific location to filter by (e.g., "Köln")
         cy.get('.tournament-list-item').first()
             .find('#ort')
             .then(($ort) => {
-                const firstLocation = $ort.text().trim();
+                const firstLocation = $ort.text().split(":")[1].trim();
 
-                // Warte, bis das Filter-Menü vollständig geladen und sichtbar ist
-                cy.get('.filter-category')
-                    .contains('Veranstaltungsort')
-                    .should('be.visible')  // Sicherstellen, dass der Filter sichtbar ist
-                    .siblings('.checkbox-group')
-                    .find('input[type="checkbox"]')
-                    .each(($checkbox) => {
-                        const checkboxValue = $checkbox.val();
+                cy.get(`input[type="checkbox"][value="${firstLocation}"]`)
+                    .should('exist')
+                    .check();
 
-                        // Wenn der Veranstaltungsort des ersten Turniers mit einem der Checkbox-Werte übereinstimmt
-                        if (firstLocation === checkboxValue) {
-                            cy.wrap($checkbox).check(); // Wählen Sie den entsprechenden Veranstaltungsort aus
-                        }
-                    });
+                // Verify that only tournaments with the selected location are displayed
+                cy.get('.tournament-list-item').each(($item) => {
+                    cy.wrap($item).find('#ort').should('contain', firstLocation);
+                });
 
-                // Überprüfen, ob das erste Turnier den ausgewählten Veranstaltungsort enthält
-                cy.get('.tournament-list-item').first()
-                    .find('#ort')
-                    .should('contain', firstLocation);
             });
+
     });
 
+        it('sollte nach Dauer filtern', () => {
+            cy.visit('https://kavolley.uber.space/');
 
-    it('sollte nach Dauer filtern', () => {
-        cy.visit('https://kavolley.uber.space/');
+            // Damit stellt man sicher, dass alles geladen ist
+            cy.get('input#username').should('be.visible');
+            cy.get('input#password').should('be.visible');
+            cy.get('button[type="submit"]').should('be.visible');
 
-        // Damit stellt man sicher, dass alles geladen ist
-        cy.get('input#username').should('be.visible');
-        cy.get('input#password').should('be.visible');
-        cy.get('button[type="submit"]').should('be.visible');
+            // Ausfüllen der Felder
+            cy.get('input#username').type('tanhab20');
+            cy.get('input#password').type('password');
+            cy.get('button[type="submit"]').click();
 
-        // Ausfüllen der Felder
-        cy.get('input#username').type('tanhab20');
-        cy.get('input#password').type('password');
-        cy.get('button[type="submit"]').click();
+            cy.visit('https://kavolley.uber.space/');
+            cy.url().should('include', '/tournaments');
+            // Zeige die Filteroptionen
+            cy.get('.filter-toggle').click().click();
 
-        cy.visit('https://kavolley.uber.space/');
-        cy.url().should('include', '/tournaments');
-        // Zeige die Filteroptionen
-        cy.get('.filter-toggle').click();
+            // Holen Sie sich eine Liste von allen möglichen Dauern
+            cy.get('.tournament-list-item').first()
+                .find('#dauer')
+                .then(($dauer) => {
+                    const firstDuration = $dauer.text().split(":")[1].trim();
 
-        // Holen Sie sich eine Liste von allen möglichen Dauern
-        cy.get('.filter-category')
-            .contains('Dauer')
-            .siblings('.checkbox-group')
-            .find('input[type="checkbox"]')
-            .each(($checkbox) => {
-                // Wählen Sie eine zufällige Dauer aus
-                cy.wrap($checkbox).check();
+                    cy.get(`input[type="checkbox"][value="${firstDuration}"]`)
+                        .should('exist')
+                        .check();
 
-                // Überprüfen, ob alle Turniere die ausgewählte Dauer enthalten
-                const selectedDuration = $checkbox.val();
-                cy.get('.tournament-list-item')
-                    .each(($turnier) => {
-                        cy.wrap($turnier)
-                            .find('#dauer')
-                            .should('contain', selectedDuration);
+
+                    cy.get('.tournament-list-item').each(($item) => {
+                        cy.wrap($item).find('#dauer').should('contain', firstDuration);
                     });
 
-                // Setzen Sie die Auswahl zurück
-                cy.wrap($checkbox).uncheck();
-            });
+                });
+        });
     });
-});
+
