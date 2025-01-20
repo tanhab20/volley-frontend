@@ -5,51 +5,53 @@ on:
     branches:
       - main
 
-jobs:
+jobs: #workflow kann aus mehreren jobs bestehen unserer nur aus dem deploy
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #deploy wird auf einer virtuellen ubuntu instanz ausgeführt
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  #holt sich den code aus dem git repo auf den sich der workflow bezieht
 
-      - name: Install sshpass
-        run: sudo apt-get install -y sshpass
+      - name: Install sshpass # installiert sshpass für die übergabe des passworts automatisch an die ssh verbindung
+        run: sudo apt-get install -y sshpass #-y automatisches bestätigen der installation
 
       - name: Deploy to Server
         run: |
           sshpass -p "${{ secrets.UBERSPACE_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.UBERSPACE_USER }}@${{ secrets.UBERSPACE_HOST }} << 'EOF'
+            #ssh für die Verbindung zum server
+            # eof darin ist der kontext der ssh sitzung
             set -e  # Stoppt bei einem Fehler
 
-            # 1️⃣ Ins richtige Verzeichnis navigieren
+            # Ins richtige Verzeichnis navigieren
             cd /var/www/virtual/kavolley/
 
-            # 2️⃣ Repo klonen oder updaten
+            # Repo klonen oder updaten
             if [ ! -d "volley-frontend/.git" ]; then
-              echo "⚠️ Repo nicht gefunden, klone es..."
+              echo "Repo nicht gefunden"
               rm -rf volley-frontend
               git clone https://github.com/tanhab20/volley-frontend.git
             fi
             cd volley-frontend
             git pull origin main
 
-            # 3️⃣ Installiere Abhängigkeiten & baue das Projekt
+            # Installiere der Abhängigkeiten
             npm install
 
             # Sicherheitslücken beheben (falls möglich)
-            npm audit fix || echo "⚠️ Konnte nicht alle Sicherheitslücken automatisch beheben"
+            npm audit fix || echo "Konnte nicht alle Sicherheitslücken automatisch beheben"
 
             # Baue das Projekt
             npm run build
 
-            # 4️⃣ Alte HTML-Dateien sicher entfernen & neue übernehmen
+            # Alte HTML-Dateien sicher entfernen & neue übernehmen
             if [ -d "/var/www/virtual/kavolley/html" ]; then
-              echo "⚠️ Entferne alte HTML-Dateien..."
+              echo "Entferne alte HTML-Dateien..."
               rm -rf /var/www/virtual/kavolley/html  # Lösche das alte html-Verzeichnis
             fi
 
-            echo "📦 Verschiebe neues Build-Verzeichnis nach html..."
+            echo "Verschiebe neues Build-Verzeichnis nach html..."
             mv build /var/www/virtual/kavolley/html  # Verschiebe das neue Build-Verzeichnis
 
-            echo "✅ Deployment erfolgreich!"
+            echo "Deployment erfolgreich!"
           EOF
