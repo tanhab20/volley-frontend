@@ -2,14 +2,13 @@ import * as cypress from "cypress";
 
 describe('Turniere Filter und Sortieren', () => {
     const formatDate = (dateText) => {
-        // Das Datum ist im Format DD.MM.YYYY, daher splitten wir es und fügen führende Nullen hinzu
         const [day, month, year] = dateText.split('.');
 
         // Überprüfe und füge führende Nullen hinzu
         const formattedDay = day < 10 ? `0${day}` : day;
         const formattedMonth = month < 10 ? `0${month}` : month;
 
-        return `${year}-${formattedMonth}-${formattedDay}`; // Formatiertes Datum im ISO-Format
+        return `${year}-${formattedMonth}-${formattedDay}`;
     };
 
     it('sollte nach Datum aufsteigend sortieren', () => {
@@ -27,25 +26,20 @@ describe('Turniere Filter und Sortieren', () => {
 
         cy.visit('https://kavolley.uber.space/');
         cy.url().should('include', '/tournaments');
-        cy.get('select#sort').select('dateAsc');
+        cy.get('select#sort').select('dateAsc'); //wählt nach Datum aufsteigend sortieren aus
 
-        // Stelle sicher, dass die Turniere nach Datum aufsteigend sortiert sind
+
         let previousDate = null;
-        cy.get('.tournament-list-item')
+        cy.get('.tournament-list-item') //geht durch alle Turniere durch
             .each(($turnier) => {
-                // Extrahiere das Datum aus dem Text
+                // Extrahiert das Datum aus dem Text
                 const dateText = $turnier.find('#datum').text().split(':')[1].trim();
 
-                // Formatieren des Datums
+                // Datum umformatieren damit man es leichter vergleichen kann
                 const formattedDate = formatDate(dateText);
 
-                // Versuche, das Datum in ein gültiges Format zu parsen
+                // Man muss ein Date erstellen damit man es dann vergleichen kann
                 const currentDate = new Date(formattedDate);
-
-                // Überprüfe, ob das Datum gültig ist
-                if (isNaN(currentDate.getTime())) {
-                    throw new Error(`Ungültiges Datum: ${dateText}`);
-                }
 
                 if (previousDate) {
 
@@ -69,17 +63,16 @@ describe('Turniere Filter und Sortieren', () => {
         cy.get('input#password').type('password');
         cy.get('button[type="submit"]').click();
 
-        // Zur Turnierseite navigieren
         cy.visit('https://kavolley.uber.space/');
 
         // Wähle die Option 'nameAsc' aus
         cy.get('select#sort').select('nameAsc');
 
-        // Stelle sicher, dass die Turniere nach Name aufsteigend sortiert sind
+
         let previousName = null;
         cy.get('.tournament-list-item')
             .each(($turnier) => {
-                const currentName = $turnier.find('h2').text();
+                const currentName = $turnier.find('h2').text(); //holt sich den Namen von einem Turnier
 
                 if (previousName) {
                     // Verwende localeCompare für den Stringvergleich
@@ -103,7 +96,7 @@ describe('Turniere Filter und Sortieren', () => {
         cy.get('input#password').type('password');
         cy.get('button[type="submit"]').click();
 
-        // Zur Turnierseite navigieren
+
         cy.visit('https://kavolley.uber.space/');
         cy.url().should('include', '/tournaments');
 
@@ -112,7 +105,7 @@ describe('Turniere Filter und Sortieren', () => {
 
         cy.get('.filter-options').should('be.visible');
 
-        // Select a specific location to filter by (e.g., "Köln")
+
         cy.get('.tournament-list-item').first()
             .find('#ort')
             .then(($ort) => {
@@ -124,7 +117,7 @@ describe('Turniere Filter und Sortieren', () => {
 
                 // Verify that only tournaments with the selected location are displayed
                 cy.get('.tournament-list-item').each(($item) => {
-                    cy.wrap($item).find('#ort').should('contain', firstLocation);
+                    cy.wrap($item).find('#ort').should('contain', firstLocation);   //cy.wrap wandelt ein item in ein cypress objekt um damit mehr cy befehle drauf angewendet werden könne
                 });
 
             });
@@ -146,10 +139,10 @@ describe('Turniere Filter und Sortieren', () => {
 
             cy.visit('https://kavolley.uber.space/');
             cy.url().should('include', '/tournaments');
-            // Zeige die Filteroptionen
+
             cy.get('.filter-toggle').click().click();
 
-            // Holen Sie sich eine Liste von allen möglichen Dauern
+           
             cy.get('.tournament-list-item').first()
                 .find('#dauer')
                 .then(($dauer) => {
