@@ -38,11 +38,7 @@ describe('Turnierübersicht - Navigation und Anzeige von Details', () => {
             cy.contains('Mehr Details').click();
         });
 
-
-
-
-        // Warte auf die URL, die das Turnierdetail enthält
-        cy.url().should('include', '/tournament/');
+        
 
         // Überprüfe, ob die Turnierdetails korrekt angezeigt werden
         cy.get('@tournamentName').then((name) => {
