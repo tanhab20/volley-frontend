@@ -9,9 +9,9 @@ describe('Navbar Tests', () => {
         cy.get('input#password').should('be.visible');
         cy.get('button[type="submit"]').should('be.visible');
 
-        // Anmelden mit einem normalen Benutzer (kutlub20)
-        cy.get('input#username').type('kutlub20');
-        cy.get('input#password').type('password');
+
+        cy.get('input#username').type('user');
+        cy.get('input#password').type('user');
         cy.get('button[type="submit"]').click();
 
         // Sicherstellen, dass der Benutzer zur Turnier-Seite weitergeleitet wird
