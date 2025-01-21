@@ -93,7 +93,7 @@ const Turniere: React.FC = () => {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     }
     if (sortOption === "nameAsc") {
-      return a.name.localeCompare(b.name);
+      return b.name.localeCompare(a.name);
     }
     if (sortOption === "nameDesc") {
       return b.name.localeCompare(a.name);
