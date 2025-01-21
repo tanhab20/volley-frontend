@@ -142,7 +142,7 @@ describe('Turniere Filter und Sortieren', () => {
 
             cy.get('.filter-toggle').click().click();
 
-           
+
             cy.get('.tournament-list-item').first()
                 .find('#dauer')
                 .then(($dauer) => {
