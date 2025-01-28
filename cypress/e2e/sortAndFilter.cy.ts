@@ -157,6 +157,8 @@ describe('Turniere Filter und Sortieren', () => {
                         cy.wrap($item).find('#dauer').should('contain', firstDuration);
                     });
 
+                    //die was nicht die dauer ist überprüfen dass sie nicht angehakelt sidn
+
                 });
         });
     });
