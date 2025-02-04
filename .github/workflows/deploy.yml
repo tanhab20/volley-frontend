@@ -5,28 +5,23 @@ on:
     branches:
       - main
 
-jobs: #workflow kann aus mehreren jobs bestehen unserer nur aus dem deploy
+jobs:
   deploy:
-    runs-on: ubuntu-latest #deploy wird auf einer virtuellen ubuntu instanz ausgeführt
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4  #holt sich den code aus dem git repo auf den sich der workflow bezieht
+        uses: actions/checkout@v4
 
-      - name: Install sshpass # installiert sshpass für die übergabe des passworts automatisch an die ssh verbindung
-        run: sudo apt-get install -y sshpass #-y automatisches bestätigen der installation
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
 
       - name: Deploy to Server
         run: |
           sshpass -p "${{ secrets.UBERSPACE_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.UBERSPACE_USER }}@${{ secrets.UBERSPACE_HOST }} << 'EOF'
-            #ssh für die Verbindung zum server
-            # eof darin ist der kontext der ssh sitzung
-            set -e  # Stoppt bei einem Fehler
-
-            # Ins richtige Verzeichnis navigieren
+            set -e
             cd /var/www/virtual/kavolley/
 
-            # Repo klonen oder updaten
             if [ ! -d "volley-frontend/.git" ]; then
               echo "Repo nicht gefunden"
               rm -rf volley-frontend
@@ -35,23 +30,29 @@ jobs: #workflow kann aus mehreren jobs bestehen unserer nur aus dem deploy
             cd volley-frontend
             git pull origin main
 
-            # Installiere der Abhängigkeiten
             npm install
-
-            # Sicherheitslücken beheben (falls möglich)
             npm audit fix || echo "Konnte nicht alle Sicherheitslücken automatisch beheben"
 
-            # Baue das Projekt
             npm run build
 
-            # Alte HTML-Dateien sicher entfernen & neue übernehmen
             if [ -d "/var/www/virtual/kavolley/html" ]; then
               echo "Entferne alte HTML-Dateien..."
-              rm -rf /var/www/virtual/kavolley/html  # Lösche das alte html-Verzeichnis
+              rm -rf /var/www/virtual/kavolley/html
             fi
 
             echo "Verschiebe neues Build-Verzeichnis nach html..."
-            mv build /var/www/virtual/kavolley/html  # Verschiebe das neue Build-Verzeichnis
+            mv build /var/www/virtual/kavolley/html
 
             echo "Deployment erfolgreich!"
           EOF
+
+  cypress-run:
+    needs: deploy  # Startet erst, wenn das Deployment erfolgreich war
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
