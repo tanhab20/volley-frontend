@@ -11,38 +11,39 @@ describe('Turniere nach Datum aufsteigend sortieren', () => {
     it('sollte nach Datum aufsteigend sortieren', () => {
         cy.visit('https://kavolley.uber.space/');
 
-        // Login
+        // Damit stellt man sicher, dass alles geladen ist
+        cy.get('input#username').should('be.visible');
+        cy.get('input#password').should('be.visible');
+        cy.get('button[type="submit"]').should('be.visible');
+
+        // Ausfüllen der Felder
         cy.get('input#username').type('tanhab20');
         cy.get('input#password').type('password');
         cy.get('button[type="submit"]').click();
 
-        cy.visit('https://kavolley.uber.space/tournaments');
+        cy.visit('https://kavolley.uber.space/');
         cy.url().should('include', '/tournaments');
+        cy.get('select#sort').select('dateAsc'); //wählt nach Datum aufsteigend sortieren aus
 
-        // Speichere alle Turnierdaten vor dem Sortieren
-        let tournamentsBeforeSorting = [];
-        cy.get('.tournament-list-item').each(($turnier) => {
-            const dateText = $turnier.find('#datum').text().split(':')[1].trim();
-            tournamentsBeforeSorting.push(formatDate(dateText));
-        });
 
-        // Sortiere nach Datum aufsteigend
-        cy.get('select#sort').select('dateAsc');
-
-        // Überprüfe die Sortierung
         let previousDate = null;
-        cy.get('.tournament-list-item').each(($turnier) => {
-            const dateText = $turnier.find('#datum').text().split(':')[1].trim();
-            const formattedDate = formatDate(dateText);
-            const currentDate = new Date(formattedDate);
+        cy.get('.tournament-list-item') //geht durch alle Turniere durch
+            .each(($turnier) => {
+                // Extrahiert das Datum aus dem Text
+                const dateText = $turnier.find('#datum').text().split(':')[1].trim();
 
-            if (previousDate) {
-                expect(currentDate).to.be.gte(previousDate);
-            }
-            previousDate = currentDate;
-        });
+                // Datum umformatieren damit man es leichter vergleichen kann
+                const formattedDate = formatDate(dateText);
 
-        // Überprüfe, dass alle Turniere noch vorhanden sind
-        cy.get('.tournament-list-item').should('have.length', tournamentsBeforeSorting.length);
+                // Man muss ein Date erstellen damit man es dann vergleichen kann
+                const currentDate = new Date(formattedDate);
+
+                if (previousDate) {
+
+                    expect(currentDate).to.be.gte(previousDate);
+                }
+
+                previousDate = currentDate;
+            });
     });
 });

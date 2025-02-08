@@ -4,7 +4,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://kavolley.uber.space/tournaments',
    // specPattern: 'cypress/e2e/**/*.cy.ts',
-    specPattern: 'cypress/e2e/sort-by-date-asc.cy.ts',
+    specPattern: 'cypress/e2e/search.cy.ts',
     supportFile: false,
   },
 });
