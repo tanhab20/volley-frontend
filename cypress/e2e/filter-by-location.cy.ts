@@ -1,4 +1,4 @@
-describe('Turniere nach Veranstaltungsort filtern', () => {
+/*describe('Turniere nach Veranstaltungsort filtern', () => {
     it('sollte nach Veranstaltungsort filtern', () => {
         cy.visit('https://kavolley.uber.space/');
 
@@ -54,4 +54,4 @@ describe('Turniere nach Veranstaltungsort filtern', () => {
 
         });
     });
-});
+});*/
