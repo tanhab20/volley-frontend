@@ -19,27 +19,36 @@ const Turniere: React.FC = () => {
   const [tournaments, setTournaments] = useState<ITournament[]>([]);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortOption, setSortOption] = useState("dateAsc");
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [allLocations, setAllLocations] = useState<string[]>([]);
+  const [allDurations, setAllDurations] = useState<string[]>([]);
+
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      setUser(decodeToken(token).user);
-    }
-    const fetchTournaments = async () => {
+    const fetchAllTournaments = async () => {
       try {
-        const data = await getAllTournaments();
-        setTournaments(data);
+        const allData: ITournament[] = await getAllTournaments({});
+        setTournaments(allData);
+
+        const uniqueLocations = getUniqueSortedValues(
+            allData.map((t: ITournament) => t.location.split(",")[0].trim())
+        );
+        const uniqueDurations = getUniqueSortedValues(
+            allData.map((t: ITournament) => t.duration)
+        );
+
+        setAllLocations(uniqueLocations);
+        setAllDurations(uniqueDurations);
       } catch (error) {
-        console.error("Fehler beim Laden der Turniere:", error);
+        console.error("Fehler beim Laden aller Turnierdaten:", error);
       }
     };
 
-    fetchTournaments();
+    fetchAllTournaments();
   }, []);
 
   useEffect(() => {
@@ -59,8 +68,12 @@ const Turniere: React.FC = () => {
     }
   };
 
-  const locations = getUniqueSortedValues(tournaments.map((t) => t.location));
-  const durations = getUniqueSortedValues(tournaments.map((t) => t.duration));
+
+  useEffect(() => {
+    setAllLocations(getUniqueSortedValues(tournaments.map((t) => t.location)));
+    setAllDurations(getUniqueSortedValues(tournaments.map((t) => t.duration)));
+  }, [tournaments]);
+
 
   const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const location = event.target.value;
@@ -81,8 +94,10 @@ const Turniere: React.FC = () => {
   };
 
   const filteredTournaments = tournaments.filter((turnier) => {
-    const locationMatch = selectedLocations.length === 0 || selectedLocations.includes(turnier.location);
-    const durationMatch = selectedDurations.length === 0 || selectedDurations.includes(turnier.duration);
+    const locationMatch =
+        selectedLocations.length === 0 || selectedLocations.includes(turnier.location);
+    const durationMatch =
+        selectedDurations.length === 0 || selectedDurations.some((dur) => turnier.duration.includes(dur));
     const searchMatch = turnier.name.toLowerCase().includes(searchQuery.toLowerCase());
     return locationMatch && durationMatch && searchMatch;
   });
@@ -147,7 +162,7 @@ const Turniere: React.FC = () => {
                 <div className="filter-category">
                   <h3>Veranstaltungsort</h3>
                   <div className="checkbox-group">
-                    {locations.map((location, index) => (
+                    {allLocations.map((location, index) => (
                         <div key={index}>
                           <input
                               type="checkbox"
@@ -165,7 +180,7 @@ const Turniere: React.FC = () => {
                 <div className="filter-category">
                   <h3>Dauer</h3>
                   <div className="checkbox-group">
-                    {durations.map((duration, index) => (
+                    {allDurations.map((duration, index) => (
                         <div key={index}>
                           <input
                               type="checkbox"
