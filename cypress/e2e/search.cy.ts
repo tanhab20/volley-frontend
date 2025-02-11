@@ -17,7 +17,7 @@ describe('Turniere nach Name suchen', () => {
             });
         });
 
-        // Test 1: Suche nach einem Turniername, das existiert (aus dem ersten Turnier)
+
         cy.get('.tournament-list-item').first().find('h2').invoke('text').then((turnierName) => {
             cy.get('input[type="text"]').clear().type(turnierName); // Gebe den ersten Turniernamen in die Suchleiste ein
 
@@ -36,21 +36,20 @@ describe('Turniere nach Name suchen', () => {
             });
         });
 
-        // Test 2: Suche nach einem Turniername, das nicht existiert (verwende hier einen zufälligen Namen)
+
         const nonExistentName = "NichtExistierendesTurnier123";
         cy.get('input[type="text"]').clear().type(nonExistentName); // Suche nach einem nicht existierenden Turnier
 
         // Überprüfe, dass kein Turnier angezeigt wird
         cy.get('.tournament-list-item').should('not.exist'); // Es sollte kein Turnier mit diesem Namen existieren
-
-        // Test 3: Leere Suchanfrage, alle Turniere sollten angezeigt werden
-        cy.get('input[type="text"]').clear();
+        cy.get('input[type="text"]').clear()
 
         allTournamentNames.forEach((name) => {
             cy.get('.tournament-list-item').each(($item) => {
-                cy.wrap($item).find('h2').should('include.text', name); // Überprüfe, dass die anderen Turniere nicht angezeigt werden
-                });
-
+                cy.wrap($item).find('h2').should('include.text', name); // Überprüfe, dass jeder gespeicherte Name angezeigt wird
+            });
         });
+
+
     });
 });
