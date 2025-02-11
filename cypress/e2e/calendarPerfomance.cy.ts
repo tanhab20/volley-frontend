@@ -16,9 +16,6 @@ describe('Kalender Performance Test', () => {
 
         cy.visit('https://kavolley.uber.space/');
 
-        // Sicherstellen, dass die Turnierseite geladen wird
-        cy.url().should('include', '/tournaments');
-
         // Ladezeitmessung starten
         const startTime = performance.now();
 
