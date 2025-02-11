@@ -3,34 +3,10 @@ import axios from 'axios';
 const BASE_URL = 'https://kavolley.uber.space/api/tournaments/';
 //const BASE_URL = 'http://localhost:4000/api/tournaments/';
 
-export const getAllTournaments = async (filters?: {
-    locations?: string[],
-    durations?: string[],
-    search?: string
-}) => {
-    try {
-        const params = new URLSearchParams();
-
-        if (filters?.locations?.length) {
-            params.append('locations', filters.locations.join(','));
-        }
-
-        if (filters?.durations?.length) {
-            params.append('durations', filters.durations.join(','));
-        }
-
-        if (filters?.search) {
-            params.append('search', filters.search);
-        }
-
-        const response = await axios.get(`${BASE_URL}?${params.toString()}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching tournaments:', error);
-        throw error;
-    }
+export const getAllTournaments = async (queryParams = "") => {
+    const response = await axios.get(`/tournaments?${queryParams}`);
+    return response.data;
 };
-
 
 export const deleteTournament = async (id: string) => {
     try {
