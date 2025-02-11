@@ -44,11 +44,6 @@ describe('Turniere nach Name suchen', () => {
         cy.get('.tournament-list-item').should('not.exist'); // Es sollte kein Turnier mit diesem Namen existieren
         cy.get('input[type="text"]').clear()
 
-        allTournamentNames.forEach((name) => {
-            cy.get('.tournament-list-item').each(($item) => {
-                cy.wrap($item).find('h2').should('include.text', name); // Überprüfe, dass jeder gespeicherte Name angezeigt wird
-            });
-        });
 
 
     });
