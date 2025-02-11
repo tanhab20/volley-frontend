@@ -28,36 +28,28 @@ const Turniere: React.FC = () => {
   const [allLocations, setAllLocations] = useState<string[]>([]);
   const [allDurations, setAllDurations] = useState<string[]>([]);
 
-  const fetchAllTournaments = async () => {
-    try {
-      const queryParams = new URLSearchParams();
-
-      if (selectedLocations.length > 0) {
-        queryParams.append("locations", selectedLocations.join(","));
-      }
-
-      if (selectedDurations.length > 0) {
-        queryParams.append("durations", selectedDurations.join(","));
-      }
-
-      if (searchQuery) {
-        queryParams.append("search", searchQuery);
-      }
-
-      const allData: ITournament[] = await getAllTournaments(queryParams.toString());
-      setTournaments(allData);
-    } catch (error) {
-      console.error("Fehler beim Laden der Turnierdaten:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchAllTournaments = async () => {
+      try {
+        const allData: ITournament[] = await getAllTournaments({});
+        setTournaments(allData);
+
+        const uniqueLocations = getUniqueSortedValues(
+            allData.map((t: ITournament) => t.location.split(",")[0].trim())
+        );
+        const uniqueDurations = getUniqueSortedValues(
+            allData.map((t: ITournament) => t.duration)
+        );
+
+        setAllLocations(uniqueLocations);
+        setAllDurations(uniqueDurations);
+      } catch (error) {
+        console.error("Fehler beim Laden aller Turnierdaten:", error);
+      }
+    };
+
     fetchAllTournaments();
   }, []);
-
-  useEffect(() => {
-    fetchAllTournaments();
-  }, [selectedLocations, selectedDurations, searchQuery]);
 
   useEffect(() => {
     if (user) {
@@ -86,19 +78,19 @@ const Turniere: React.FC = () => {
   const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const location = event.target.value;
     setSelectedLocations((prev) =>
-        prev.includes(location) ? prev.filter((item) => item !== location) : [...prev, location]
+        prev.includes(location)
+            ? prev.filter((item) => item !== location)
+            : [...prev, location]
     );
   };
 
   const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const duration = event.target.value;
     setSelectedDurations((prev) =>
-        prev.includes(duration) ? prev.filter((item) => item !== duration) : [...prev, duration]
+        prev.includes(duration)
+            ? prev.filter((item) => item !== duration)
+            : [...prev, duration]
     );
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
   };
 
   const filteredTournaments = tournaments.filter((turnier) => {
