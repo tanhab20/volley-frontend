@@ -52,8 +52,8 @@ const Turniere: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      setIsAdmin(user.role === "admin");
+    if (user?.role === "admin") {
+      setIsAdmin(true);
     }
   }, [user]);
 
