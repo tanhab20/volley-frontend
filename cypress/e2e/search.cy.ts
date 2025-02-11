@@ -9,9 +9,6 @@ describe('Turniere nach Name suchen', () => {
 
         cy.visit('https://kavolley.uber.space');
 
-        // Warten, bis die Turniere geladen sind
-        cy.intercept('GET', '/api/tournaments').as('getTournaments');
-        cy.wait('@getTournaments');
 
         // Speichere alle Turniernamen vor der Suche
         let allTournamentNames = [];
