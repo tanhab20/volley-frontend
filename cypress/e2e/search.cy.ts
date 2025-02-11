@@ -9,7 +9,6 @@ describe('Turniere nach Name suchen', () => {
 
         cy.visit('https://kavolley.uber.space');
 
-
         // Speichere alle Turniernamen vor der Suche
         let allTournamentNames = [];
         cy.get('.tournament-list-item').each(($item) => {
