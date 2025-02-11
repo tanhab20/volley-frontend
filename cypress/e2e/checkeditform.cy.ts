@@ -30,7 +30,7 @@ describe('Edit Tournament', () => {
 
         // Click edit button for the first tournament
         cy.get('.tournament-list-item').first().within(() => {
-            cy.get('button.edit').click();
+            cy.get('button.edi').click();
         });
 
         // Assert the URL contains the edit route
