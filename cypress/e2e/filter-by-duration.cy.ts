@@ -1,6 +1,6 @@
 import * as cypress from "cypress";
 
-/*describe('Turniere nach Dauer filtern', () => {
+describe('Turniere nach Dauer filtern', () => {
     it('sollte nach Dauer filtern', () => {
         cy.visit('https://kavolley.uber.space/');
 
@@ -50,4 +50,4 @@ import * as cypress from "cypress";
             });
         });
     });
-});*/
+});
