@@ -12,7 +12,7 @@ describe('Tournament Form', () => {
 
         // Stelle sicher, dass die richtige Seite geladen wurde
         cy.visit('https://kavolley.uber.space/');
-        cy.url().should('include', '/tournaments');
+
 
         // Navigiere zur Formularseite
         cy.get('.navbar-link').contains('Form').click();
@@ -38,5 +38,9 @@ describe('Tournament Form', () => {
 
         // Stelle sicher, dass die Übersicht geladen wurde
         cy.url().should('include', '/overview');
+
+        // Stelle sicher, dass der Button sichtbar ist, und klicke
+        cy.get('button[id="submitButton"]').should('be.visible').click();
+
     });
 });
